@@ -21,4 +21,22 @@ void main() async {
     int secondResult = data.length;
     expect(secondResult - firstresult, 1);
   });
+
+  test('Тест удаления заметки из локального хранилища', () async {
+    List<Note> data = NotesLocalStorage().loadNotes();
+    late int firstresult;
+    late Note note;
+    if (data.isNotEmpty) {
+      note = data.last;
+      firstresult = data.length;
+    } else {
+      note = Note.fromText(Random().nextInt(pow(2, 32).toInt()).toString(), '');
+      NotesLocalStorage().addNote(note);
+      firstresult = 1;
+    }
+    NotesLocalStorage().deleteNote(note);
+    data = NotesLocalStorage().loadNotes();
+    int secondResult = data.length;
+    expect(secondResult - firstresult, -1);
+  });
 }

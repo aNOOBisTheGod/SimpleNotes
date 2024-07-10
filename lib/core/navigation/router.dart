@@ -11,7 +11,7 @@ final router = GoRouter(
       builder: (context, state) => const NotesListPageScreen(),
     ),
     GoRoute(
-        path: '/add_note',
+        path: '/add',
         builder: (context, state) {
           Note? note = state.extra as Note?;
           return EditNotePageScreen(

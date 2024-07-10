@@ -12,6 +12,9 @@
 <li>Хранение данных на бэкенд-сервере</li>
 <li>Хранение данных в локальном хранилище</li>
 <li>Интернационализация</li>
+<li>Реализованы Unit-тесты</li>
+<li>Реализован интеграционный тест добавления заметки</li>
+<li>Добавлены диплинки</li>
 </ul>
 <img src="assets/github/screenshots/list.png" width="200">
 <img src="assets/github/screenshots/add_note.png" width="200">

@@ -126,7 +126,7 @@ class _Content extends StatelessWidget {
           shape: const CircleBorder(),
           backgroundColor: Colors.blue,
           onPressed: () {
-            router.push('/add_note');
+            router.push('/add');
           },
           tooltip: AppLocalizations.of(context)!.createNew,
           child: const Icon(
