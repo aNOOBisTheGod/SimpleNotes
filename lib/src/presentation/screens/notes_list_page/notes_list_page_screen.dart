@@ -107,7 +107,7 @@ class _Content extends StatelessWidget {
                                                   addNoteTitleController.text =
                                                       '';
                                                 },
-                                                icon: const Icon(Icons.add))),
+                                                icon: const Icon(Icons.send))),
                                       ),
                                     ),
                                     const SizedBox(

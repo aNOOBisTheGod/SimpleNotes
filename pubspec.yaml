@@ -23,13 +23,20 @@ dependencies:
   go_router: ^14.2.0
   flutter_lints: ^4.0.0
   dio: ^5.4.3+1
-  device_info_plus: ^9.1.2
   flutter_localizations:
     sdk: flutter
   intl: any
+  device_info_plus: ^9.1.2
+  get_it: ^7.7.0
+  equatable: ^2.0.5
+  injectable: ^2.4.2
 
 dev_dependencies:
   flutter_test:
+    sdk: flutter
+  build_runner:
+  injectable_generator:
+  integration_test:
     sdk: flutter
 
 

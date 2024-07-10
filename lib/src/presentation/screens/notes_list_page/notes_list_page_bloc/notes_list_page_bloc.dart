@@ -1,3 +1,4 @@
+import 'package:injectable/injectable.dart';
 import 'package:simplenotes/core/logger/note_event_logger.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:simplenotes/src/domain/usecase/notes/add_note_data.dart';
@@ -9,6 +10,7 @@ import '../../../../domain/usecase/notes/delete_note_data.dart';
 part 'notes_list_page_event.dart';
 part 'notes_list_page_state.dart';
 
+@Injectable()
 class NoteListPageBloc extends Bloc<NoteListPageEvent, NoteListPageState> {
   final GetNotesList _getNotesList;
   final DeleteNoteData _deleteNoteData;
