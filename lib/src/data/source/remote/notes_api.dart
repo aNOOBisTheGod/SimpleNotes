@@ -9,7 +9,7 @@ class NotesApi {
   final String auth = 'Bearer ${AuthToken().token}';
   final box = Hive.box('revision');
 
-  void updateRevision(Response response) {
+  Future<void> updateRevision(Response response) async {
     box.put('remote', response.data['revision']);
     NoteEventLogger().remoteRevisionUpdated(response.data['revision']);
   }
@@ -21,7 +21,7 @@ class NotesApi {
           'accept': 'application/json',
           'X-Last-Known-Revision': box.get('remote')
         }));
-    updateRevision(response);
+    await updateRevision(response);
     box.put('local', response.data['revision']);
     return (response.data['list'] as List)
         .map((e) => Note.fromJson(e))
@@ -37,7 +37,7 @@ class NotesApi {
           'X-Last-Known-Revision': box.get('remote')
         }));
     NoteEventLogger().remoteNoteAdded(note);
-    updateRevision(response);
+    await updateRevision(response);
   }
 
   Future<void> deleteNote(Note note) async {
@@ -48,7 +48,7 @@ class NotesApi {
           'X-Last-Known-Revision': box.get('remote')
         }));
     NoteEventLogger().remoteNoteDeleted(note);
-    updateRevision(response);
+    await updateRevision(response);
   }
 
   Future<void> editNote(Note note) async {
@@ -60,7 +60,7 @@ class NotesApi {
           'X-Last-Known-Revision': box.get('remote')
         }));
     NoteEventLogger().remoteNoteEdited(note);
-    updateRevision(response);
+    await updateRevision(response);
   }
 
   Future<void> patchNotesList(List<Note> notes) async {

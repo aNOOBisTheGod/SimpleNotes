@@ -6,7 +6,7 @@ class NotesLocalStorage {
   final box = Hive.box('notesList');
   final revisionBox = Hive.box('revision');
 
-  void incrementRevision() {
+  void incrementRevision() async {
     int revision = revisionBox.get('local') ?? 0;
     revisionBox.put('local', revision + 1);
     NoteEventLogger().localRevisionUpdated(revision + 1);

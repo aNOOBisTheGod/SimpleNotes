@@ -1,10 +1,12 @@
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:injectable/injectable.dart';
 import 'package:simplenotes/core/logger/note_event_logger.dart';
 import 'package:simplenotes/src/data/source/local/notes_local_storage.dart';
 import 'package:simplenotes/src/data/source/remote/notes_api.dart';
 import 'package:simplenotes/src/domain/models/note.dart';
 import 'package:simplenotes/src/domain/repository/note_repository.dart';
 
+@Injectable(as: NoteRepository)
 class NoteRepositoryImpl implements NoteRepository {
   Future<void> updateRemoteNotesList() async {
     final box = Hive.box('revision');

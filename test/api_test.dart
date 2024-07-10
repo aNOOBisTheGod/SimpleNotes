@@ -2,6 +2,8 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/widgets.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:simplenotes/core/utils/get_device_id.dart';
 import 'package:simplenotes/core/utils/http_overrides.dart';
 import 'package:simplenotes/src/data/source/remote/notes_api.dart';
@@ -9,9 +11,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:simplenotes/src/domain/models/note.dart';
 
 void main() async {
-  HttpOverrides.global = MyHttpOverrides();
   WidgetsFlutterBinding.ensureInitialized();
-
+  HttpOverrides.global = MyHttpOverrides();
+  Hive.init('./test/database/remote');
+  await Hive.openBox('notesList');
+  await Hive.openBox('revision');
   test('Тест добавления заметки', () async {
     String id = await GetDeviceId().getId();
     List<Note> data = await NotesApi().loadNotes();
