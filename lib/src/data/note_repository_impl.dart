@@ -1,3 +1,4 @@
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:injectable/injectable.dart';
 import 'package:simplenotes/core/logger/note_event_logger.dart';
@@ -9,9 +10,14 @@ import 'package:simplenotes/src/domain/repository/note_repository.dart';
 @Injectable(as: NoteRepository)
 class NoteRepositoryImpl implements NoteRepository {
   Future<void> updateRemoteNotesList() async {
-    final box = Hive.box('revision');
-    if ((box.get('remote') ?? 0) < (box.get('local') ?? 0)) {
-      await NotesApi().patchNotesList(NotesLocalStorage().loadNotes());
+    try {
+      final box = Hive.box('revision');
+      if ((box.get('remote') ?? 0) < (box.get('local') ?? 0)) {
+        await NotesApi().patchNotesList(NotesLocalStorage().loadNotes());
+      }
+    } catch (e) {
+      await FirebaseCrashlytics.instance
+          .recordError(e.runtimeType.toString(), null, reason: e.toString());
     }
   }
 

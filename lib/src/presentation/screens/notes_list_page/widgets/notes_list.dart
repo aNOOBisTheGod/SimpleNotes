@@ -1,3 +1,4 @@
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -84,17 +85,25 @@ class _NotesListWidgetState extends State<NotesListWidget> {
                     Checkbox(
                         activeColor: Colors.green,
                         value: widget.notesList[index].isDone,
-                        fillColor: widget.notesList[index].status ==
-                                    NoteStatus.high &&
-                                !widget.notesList[index].isDone
-                            ? WidgetStatePropertyAll(Colors.red.withOpacity(.3))
-                            : null,
+                        fillColor:
+                            widget.notesList[index].status == NoteStatus.high &&
+                                    !widget.notesList[index].isDone
+                                ? WidgetStatePropertyAll(FirebaseRemoteConfig
+                                        .instance
+                                        .getBool('default_danger_color')
+                                    ? Colors.red.withOpacity(.3)
+                                    : const Color(0xff793cd8).withOpacity(.3))
+                                : null,
                         side:
                             widget.notesList[index].status == NoteStatus.high &&
                                     !widget.notesList[index].isDone
                                 ? WidgetStateBorderSide.resolveWith(
-                                    (states) => const BorderSide(
-                                        width: 1.0, color: Colors.red),
+                                    (states) => BorderSide(
+                                        width: 1.0,
+                                        color: FirebaseRemoteConfig.instance
+                                                .getBool('default_danger_color')
+                                            ? Colors.red
+                                            : const Color(0xff793cd8)),
                                   )
                                 : null,
                         onChanged: (value) {
