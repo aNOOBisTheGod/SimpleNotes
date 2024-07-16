@@ -21,12 +21,13 @@ import 'package:path_provider/path_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
+      name: 'simple notes',
       options: const FirebaseOptions(
-    apiKey: 'AIzaSyA63fi3nvEJGR1v9G7x_quVL6avsK0pZFQ',
-    appId: '1:542744020459:android:6a4058226d991e0931c5ae',
-    messagingSenderId: 'sendid',
-    projectId: 'linus-torvalds',
-  ));
+        apiKey: 'AIzaSyA63fi3nvEJGR1v9G7x_quVL6avsK0pZFQ2',
+        appId: '1:542744020459:android:6a4058226d991e0931c5ae',
+        messagingSenderId: 'sendid',
+        projectId: 'linus-torvalds',
+      ));
   Directory dir = await getApplicationDocumentsDirectory();
   HttpOverrides.global = MyHttpOverrides();
   configureDependencies();
