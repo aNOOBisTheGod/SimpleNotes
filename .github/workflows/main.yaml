@@ -25,9 +25,7 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: stable
-          flutter-version-file: pubspec.yaml
-          cache: true
+          flutter-version: 3.23.0-14.0.pre.76
       - run: |
           mkdir lib/core/secrets/
           touch lib/core/secrets/auth_token.dart
