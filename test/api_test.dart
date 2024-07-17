@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:hive/hive.dart';
 import 'package:simplenotes/core/utils/get_device_id.dart';
@@ -15,6 +16,7 @@ void main() async {
   Hive.init('./test/database/remote');
   await Hive.openBox('notesList');
   await Hive.openBox('revision');
+
   test('Тест добавления заметки', () async {
     String id = await GetDeviceId().getId();
     List<Note> data = await NotesApi().loadNotes();
