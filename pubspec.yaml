@@ -45,7 +45,7 @@ dev_dependencies:
   injectable_generator:
   integration_test:
     sdk: flutter
-  freezed: ^2.5.7
+  freezed: ^2.5.2
   json_serializable: ^6.8.0
 
 
