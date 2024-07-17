@@ -76,7 +76,7 @@ class _NotesListWidgetState extends State<NotesListWidget> {
               },
               child: ListTile(
                 onTap: () {
-                  context.push('/add_note', extra: widget.notesList[index]);
+                  context.push('/add', extra: widget.notesList[index]);
                 },
                 title: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,16 +84,15 @@ class _NotesListWidgetState extends State<NotesListWidget> {
                     Checkbox(
                         activeColor: Colors.green,
                         value: widget.notesList[index].isDone,
-                        fillColor:
-                            widget.notesList[index].status == NoteStatus.high &&
-                                    !widget.notesList[index].isDone
-                                ? MaterialStatePropertyAll(
-                                    Colors.red.withOpacity(.3))
-                                : null,
+                        fillColor: widget.notesList[index].status ==
+                                    NoteStatus.high &&
+                                !widget.notesList[index].isDone
+                            ? WidgetStatePropertyAll(Colors.red.withOpacity(.3))
+                            : null,
                         side:
                             widget.notesList[index].status == NoteStatus.high &&
                                     !widget.notesList[index].isDone
-                                ? MaterialStateBorderSide.resolveWith(
+                                ? WidgetStateBorderSide.resolveWith(
                                     (states) => const BorderSide(
                                         width: 1.0, color: Colors.red),
                                   )
