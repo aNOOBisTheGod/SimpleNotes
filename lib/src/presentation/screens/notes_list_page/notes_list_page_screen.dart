@@ -1,5 +1,5 @@
-import 'package:flutter/widgets.dart';
 import 'package:simplenotes/core/flavors/flavors_manager.dart';
+import 'package:simplenotes/core/navigation/navigation_manager.dart';
 import 'package:simplenotes/core/utils/get_device_id.dart';
 import 'package:simplenotes/l10n/generated/app_localizations.dart';
 import 'package:simplenotes/src/domain/models/note.dart';
@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:simplenotes/src/presentation/screens/notes_list_page/widgets/notes_list.dart';
 
-import '../../../../core/navigation/router.dart';
 import 'widgets/appbar_delegate.dart';
 
 class NotesListPageScreen extends StatelessWidget {
@@ -22,7 +21,7 @@ class NotesListPageScreen extends StatelessWidget {
 }
 
 class _Content extends StatelessWidget {
-  _Content({super.key});
+  _Content();
 
   final TextEditingController addNoteTitleController = TextEditingController();
 
@@ -141,7 +140,7 @@ class _Content extends StatelessWidget {
           shape: const CircleBorder(),
           backgroundColor: Colors.blue,
           onPressed: () {
-            router.push('/add');
+            context.goAdd();
           },
           tooltip: AppLocalizations.of(context)!.createNew,
           child: const Icon(

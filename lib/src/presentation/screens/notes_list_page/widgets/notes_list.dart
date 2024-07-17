@@ -1,10 +1,8 @@
 import 'package:firebase_remote_config/firebase_remote_config.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:simplenotes/core/navigation/navigation_manager.dart';
 import 'package:simplenotes/src/domain/models/note.dart';
 import 'package:simplenotes/src/presentation/screens/notes_list_page/notes_list_page_bloc/notes_list_page_bloc.dart';
 
@@ -77,7 +75,7 @@ class _NotesListWidgetState extends State<NotesListWidget> {
               },
               child: ListTile(
                 onTap: () {
-                  context.push('/add', extra: widget.notesList[index]);
+                  context.goAddWithNote(widget.notesList[index]);
                 },
                 title: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

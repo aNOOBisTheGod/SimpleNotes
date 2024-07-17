@@ -25,7 +25,7 @@ class EditNotePageScreen extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   final Note? noteToEdit;
-  _Content({super.key, this.noteToEdit});
+  _Content({this.noteToEdit});
 
   final TextEditingController _noteTitleController = TextEditingController();
 
