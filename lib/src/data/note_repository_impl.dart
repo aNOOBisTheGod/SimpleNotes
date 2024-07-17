@@ -43,6 +43,7 @@ class NoteRepositoryImpl implements NoteRepository {
 
   @override
   Future<void> editNote(Note note) async {
+    print(note.toJson());
     NotesLocalStorage().editNote(note);
     await NotesApi().editNote(note);
     updateRemoteNotesList();

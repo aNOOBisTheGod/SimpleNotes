@@ -6,7 +6,7 @@ class GetDeviceId {
     try {
       return await FlutterUdid.udid;
     } on MissingPluginException {
-      return '';
+      return '123';
     }
   }
 }
