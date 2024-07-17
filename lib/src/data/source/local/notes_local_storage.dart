@@ -13,9 +13,10 @@ class NotesLocalStorage {
   }
 
   List<Note> loadNotes() {
-    return (box.get('list') ?? [])
-        .map<Note>((e) => Note.fromJson(Map<String, dynamic>.from(e)))
-        .toList() as List<Note>;
+    return (box.get('list') ?? []).map<Note>((e) {
+      print(Map<String, dynamic>.from(e));
+      return Note.fromJson(Map<String, dynamic>.from(e));
+    }).toList() as List<Note>;
   }
 
   void saveNotes(List<Note> notesList) {

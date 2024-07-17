@@ -128,7 +128,7 @@ class _Content extends StatelessWidget {
                       ),
             FlavorsManager().getAppMode() == AppFlavors.dev
                 ? const Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.topRight,
                     child: Padding(
                       padding: EdgeInsets.all(16),
                       child: Text('dev'),

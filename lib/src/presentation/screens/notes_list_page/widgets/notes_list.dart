@@ -160,7 +160,9 @@ class _NotesListWidgetState extends State<NotesListWidget> {
                               widget.notesList[index].deadline != null
                                   ? Text(
                                       DateFormat('dd.MM.yyyy').format(
-                                          widget.notesList[index].deadline!),
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                              widget
+                                                  .notesList[index].deadline!)),
                                       style:
                                           Theme.of(context).textTheme.bodySmall,
                                     )
