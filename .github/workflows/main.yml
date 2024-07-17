@@ -33,7 +33,7 @@ jobs:
       - run: flutter pub get
       - run: dart format .
       - run: flutter test
-      - run: flutter build apk
+      - run: flutter build apk --release --flavor=prod
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
