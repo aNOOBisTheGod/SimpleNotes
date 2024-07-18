@@ -25,7 +25,7 @@ class EditNotePageScreen extends StatelessWidget {
 
 class _Content extends StatelessWidget {
   final Note? noteToEdit;
-  _Content({super.key, this.noteToEdit});
+  _Content({this.noteToEdit});
 
   final TextEditingController _noteTitleController = TextEditingController();
 
@@ -48,7 +48,8 @@ class _Content extends StatelessWidget {
                   String id = await GetDeviceId().getId();
                   if (noteToEdit != null) {
                     noteToEdit!.text = _noteTitleController.text;
-                    noteToEdit!.deadline = state.noteDate;
+                    noteToEdit!.deadline =
+                        state.noteDate?.millisecondsSinceEpoch;
                     noteToEdit!.status = state.noteStatus;
                     noteToEdit!.changedAt =
                         DateTime.now().millisecondsSinceEpoch;
@@ -59,7 +60,7 @@ class _Content extends StatelessWidget {
                         text: _noteTitleController.text,
                         isDone: false,
                         status: state.noteStatus,
-                        deadline: state.noteDate,
+                        deadline: state.noteDate?.millisecondsSinceEpoch,
                         lastUpdatedBy: id,
                         createdAt: DateTime.now().millisecondsSinceEpoch,
                         changedAt: DateTime.now().millisecondsSinceEpoch)));
@@ -174,8 +175,8 @@ class _Content extends StatelessWidget {
                             },
                             style: ButtonStyle(
                               foregroundColor:
-                                  const MaterialStatePropertyAll(Colors.red),
-                              overlayColor: MaterialStatePropertyAll(
+                                  const WidgetStatePropertyAll(Colors.red),
+                              overlayColor: WidgetStatePropertyAll(
                                   Colors.red.withOpacity(.3)),
                             ),
                             child: Row(
