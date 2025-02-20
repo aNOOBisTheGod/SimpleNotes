@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "542744020459",
+    "project_id": "linus-torvalds",
+    "storage_bucket": "linus-torvalds.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:542744020459:android:6a4058226d991e0931c5ae",
+        "android_client_info": {
+          "package_name": "xyz.anoobis.simplenotes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA63fi3nvEJGR1v9G7x_quVL6avsK0pZFQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -25,16 +25,18 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: 3.19.0
+          flutter-version: 3.22.2
       - run: |
           mkdir lib/core/secrets/
           touch lib/core/secrets/auth_token.dart
           echo $APP_TOKEN >> lib/core/secrets/auth_token.dart
       - run: flutter pub get
-      - run: flutter build apk
+      - run: dart format .
+      - run: flutter test
+      - run: flutter build apk --release --flavor=prod
       - name: Push to Releases
         uses: ncipollo/release-action@v1
         with:
-          artifacts: "build/app/outputs/apk/release/*"
+          artifacts: "build/app/outputs/apk/prod/release/*"
           tag: v0.1.${{ github.run_number }}
           token: ${{ secrets.TOKEN }}

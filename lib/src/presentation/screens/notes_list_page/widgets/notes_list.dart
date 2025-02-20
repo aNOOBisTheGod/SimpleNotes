@@ -1,9 +1,8 @@
-import 'package:flutter/foundation.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:simplenotes/core/navigation/navigation_manager.dart';
 import 'package:simplenotes/src/domain/models/note.dart';
 import 'package:simplenotes/src/presentation/screens/notes_list_page/notes_list_page_bloc/notes_list_page_bloc.dart';
 
@@ -76,7 +75,7 @@ class _NotesListWidgetState extends State<NotesListWidget> {
               },
               child: ListTile(
                 onTap: () {
-                  context.push('/add_note', extra: widget.notesList[index]);
+                  context.goAddWithNote(widget.notesList[index]);
                 },
                 title: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -87,15 +86,22 @@ class _NotesListWidgetState extends State<NotesListWidget> {
                         fillColor:
                             widget.notesList[index].status == NoteStatus.high &&
                                     !widget.notesList[index].isDone
-                                ? MaterialStatePropertyAll(
-                                    Colors.red.withOpacity(.3))
+                                ? WidgetStatePropertyAll(FirebaseRemoteConfig
+                                        .instance
+                                        .getBool('default_danger_color')
+                                    ? Colors.red.withOpacity(.3)
+                                    : const Color(0xff793cd8).withOpacity(.3))
                                 : null,
                         side:
                             widget.notesList[index].status == NoteStatus.high &&
                                     !widget.notesList[index].isDone
-                                ? MaterialStateBorderSide.resolveWith(
-                                    (states) => const BorderSide(
-                                        width: 1.0, color: Colors.red),
+                                ? WidgetStateBorderSide.resolveWith(
+                                    (states) => BorderSide(
+                                        width: 1.0,
+                                        color: FirebaseRemoteConfig.instance
+                                                .getBool('default_danger_color')
+                                            ? Colors.red
+                                            : const Color(0xff793cd8)),
                                   )
                                 : null,
                         onChanged: (value) {
@@ -152,7 +158,9 @@ class _NotesListWidgetState extends State<NotesListWidget> {
                               widget.notesList[index].deadline != null
                                   ? Text(
                                       DateFormat('dd.MM.yyyy').format(
-                                          widget.notesList[index].deadline!),
+                                          DateTime.fromMillisecondsSinceEpoch(
+                                              widget
+                                                  .notesList[index].deadline!)),
                                       style:
                                           Theme.of(context).textTheme.bodySmall,
                                     )
