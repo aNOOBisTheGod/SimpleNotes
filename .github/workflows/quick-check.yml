@@ -19,15 +19,15 @@ jobs:
     - name: Build images
       run: |
         cd docker
-        docker-compose build analyzer test
+        docker compose build analyzer test
     
     - name: Run analyzer and tests in parallel
       run: |
         cd docker
-        docker-compose up --abort-on-container-exit analyzer test
+        docker compose up --abort-on-container-exit analyzer test
     
     - name: Check results
       if: always()
       run: |
         docker ps -a
-        docker-compose ps
+        docker compose ps

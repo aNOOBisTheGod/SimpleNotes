@@ -20,10 +20,10 @@ jobs:
     - name: Run full CI/CD pipeline
       run: |
         cd docker
-        docker-compose build
-        docker-compose run --rm analyzer
-        docker-compose run --rm test
-        docker-compose run --rm builder
+        docker compose build
+        docker compose run --rm analyzer
+        docker compose run --rm test
+        docker compose run --rm builder
     
     - name: Extract APK
       run: |
