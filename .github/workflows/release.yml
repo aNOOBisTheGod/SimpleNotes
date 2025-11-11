@@ -25,9 +25,9 @@ jobs:
         docker compose run --rm test
         docker compose run --rm builder
     
-    - name: Extract APK
+    - name: Extract APK from volume
       run: |
-        docker cp flutter-builder:/app/build/app/outputs/flutter-apk/app-prod-release.apk ./app-release.apk
+        docker run --rm -v flutter-build-output:/build -v $(pwd):/output alpine sh -c "cp /build/app/outputs/flutter-apk/app-prod-release.apk /output/app-release.apk"
     
     - name: Get version from tag
       id: get_version
