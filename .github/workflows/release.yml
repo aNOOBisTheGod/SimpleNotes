@@ -27,7 +27,7 @@ jobs:
     
     - name: Extract APK from volume
       run: |
-        docker run --rm -v flutter-build-output:/build -v $(pwd):/output alpine sh -c "cp /build/app/outputs/flutter-apk/app-prod-release.apk /output/app-release.apk"
+        docker run --rm -v flutter-build-output:/build alpine cat /build/app/outputs/flutter-apk/app-prod-release.apk > app-release.apk
     
     - name: Get version from tag
       id: get_version

@@ -41,7 +41,9 @@ parallel: ## Запустить analyzer и test параллельно
 	cd docker && docker-compose up analyzer test
 
 extract-apk: ## Скопировать собранный APK из volume
-	docker run --rm -v flutter-build-output:/build -v $$(pwd):/output alpine sh -c "cp /build/app/outputs/flutter-apk/app-prod-release.apk /output/app-release.apk"
+	@docker run --rm -v flutter-build-output:/build alpine cat /build/app/outputs/flutter-apk/app-prod-release.apk > app-release.apk
+	@echo "APK extracted to ./app-release.apk"
 
 extract-coverage: ## Скопировать coverage из volume
-	docker run --rm -v flutter-test-coverage:/coverage -v $$(pwd):/output alpine sh -c "cp -r /coverage /output/"
+	@docker run --rm -v flutter-test-coverage:/cov alpine tar -czf - -C /cov . | tar -xzf - -C ./coverage
+	@echo "Coverage extracted to ./coverage/"
