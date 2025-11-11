@@ -1,0 +1,67 @@
+services:
+  # Сервис для анализа кода
+  analyzer:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.analyzer
+    container_name: flutter-analyzer
+    networks:
+      - flutter-network
+    environment:
+      - CI=true
+
+  # Сервис для unit-тестов
+  test:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.test
+    container_name: flutter-test
+    volumes:
+      - test-coverage:/app/coverage
+    networks:
+      - flutter-network
+    environment:
+      - CI=true
+
+  # Сервис для сборки приложения
+  builder:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.builder
+    platform: linux/amd64
+    container_name: flutter-builder
+    volumes:
+      - build-output:/app/build
+    networks:
+      - flutter-network
+    depends_on:
+      - analyzer
+      - test
+    environment:
+      - CI=true
+
+  # Сервис для integration-тестов
+  integration:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.integration
+    container_name: flutter-integration
+    networks:
+      - flutter-network
+    depends_on:
+      - builder
+    environment:
+      - CI=true
+
+# Volumes для артефактов
+volumes:
+  build-output:
+    name: flutter-build-output
+  test-coverage:
+    name: flutter-test-coverage
+
+# Сеть для взаимодействия контейнеров
+networks:
+  flutter-network:
+    name: flutter-ci-network
+    driver: bridge

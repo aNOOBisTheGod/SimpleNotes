@@ -1,0 +1,66 @@
+# Dockerfile для integration-тестов Flutter
+FROM ubuntu:22.04
+
+# Устанавливаем переменные окружения
+ENV FLUTTER_VERSION=3.24.0
+ENV FLUTTER_HOME=/opt/flutter
+ENV ANDROID_SDK_ROOT=/opt/android-sdk
+ENV PATH="$FLUTTER_HOME/bin:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$PATH"
+
+# Устанавливаем зависимости
+RUN apt-get update && apt-get install -y \
+    curl \
+    git \
+    unzip \
+    xz-utils \
+    zip \
+    libglu1-mesa \
+    openjdk-11-jdk \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Устанавливаем Android SDK
+RUN mkdir -p ${ANDROID_SDK_ROOT}/cmdline-tools && \
+    cd ${ANDROID_SDK_ROOT}/cmdline-tools && \
+    wget https://dl.google.com/android/repository/commandlinetools-linux-9477386_latest.zip && \
+    unzip commandlinetools-linux-9477386_latest.zip && \
+    mv cmdline-tools latest && \
+    rm commandlinetools-linux-9477386_latest.zip
+
+# Принимаем лицензии Android SDK
+RUN yes | sdkmanager --licenses || true
+
+# Устанавливаем необходимые компоненты для integration тестов
+RUN sdkmanager "platform-tools" "platforms;android-33" "build-tools;33.0.0"
+
+# Скачиваем и устанавливаем Flutter
+RUN git clone https://github.com/flutter/flutter.git -b stable ${FLUTTER_HOME}
+
+# Предварительная настройка Flutter
+RUN flutter precache
+RUN flutter config --no-analytics
+RUN flutter doctor
+
+# Устанавливаем рабочую директорию
+WORKDIR /app
+
+# Копируем файлы проекта
+COPY pubspec.yaml pubspec.lock ./
+COPY analysis_options.yaml ./
+COPY l10n.yaml ./
+
+# Копируем l10n файлы ДО pub get (требуется для генерации локализаций)
+COPY lib/l10n ./lib/l10n
+
+# Получаем зависимости
+RUN flutter pub get
+
+# Копируем весь проект
+COPY . .
+
+# Копируем скрипт integration-тестов
+COPY scripts/integration_test.sh /scripts/integration_test.sh
+RUN chmod +x /scripts/integration_test.sh
+
+# Запускаем integration-тесты (в headless режиме)
+CMD ["/scripts/integration_test.sh"]
