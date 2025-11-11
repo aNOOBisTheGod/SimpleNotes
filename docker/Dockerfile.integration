@@ -58,9 +58,9 @@ RUN flutter pub get
 # Копируем весь проект
 COPY . .
 
-# Копируем скрипт integration-тестов
+# Копируем скрипт integration-тестов (после COPY . . чтобы не затереть)
 COPY scripts/integration_test.sh /scripts/integration_test.sh
 RUN chmod +x /scripts/integration_test.sh
 
-# Запускаем integration-тесты (в headless режиме)
+# Запускаем integration-тесты
 CMD ["/scripts/integration_test.sh"]
