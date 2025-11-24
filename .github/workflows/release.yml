@@ -31,13 +31,47 @@ jobs:
     
     - name: Get version from tag
       id: get_version
-      run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      run: |
+        VERSION=${GITHUB_REF#refs/tags/}
+        echo "VERSION=$VERSION" >> $GITHUB_OUTPUT
+        echo "Building release for version: $VERSION"
+    
+    - name: Get APK info
+      id: apk_info
+      run: |
+        APK_SIZE=$(du -h app-release.apk | cut -f1)
+        echo "size=$APK_SIZE" >> $GITHUB_OUTPUT
+        echo "APK size: $APK_SIZE"
     
     - name: Create Release
       uses: softprops/action-gh-release@v1
       with:
         files: app-release.apk
-        name: Release ${{ steps.get_version.outputs.VERSION }}
+        name: SimpleNotes ${{ steps.get_version.outputs.VERSION }}
+        body: |
+          ## 📱 SimpleNotes Release ${{ steps.get_version.outputs.VERSION }}
+          
+          ### 📦 Download
+          - **[app-release.apk]** - Production release APK (${{ steps.apk_info.outputs.size }})
+          
+          ### ℹ️ Build Information
+          - **Version:** ${{ steps.get_version.outputs.VERSION }}
+          - **Commit:** ${{ github.sha }}
+          - **Build Date:** ${{ github.event.head_commit.timestamp }}
+          - **Flavor:** Production
+          
+          ### 🚀 Installation
+          1. Download `app-release.apk`
+          2. Enable "Install from unknown sources" on your Android device
+          3. Install the APK
+          
+          ### ✅ CI/CD Pipeline
+          - ✓ Code Analysis
+          - ✓ Unit Tests  
+          - ✓ APK Build
+          
+          ---
+          Built with Docker CI/CD pipeline
         draft: false
         prerelease: false
       env:

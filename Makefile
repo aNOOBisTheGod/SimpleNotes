@@ -1,32 +1,34 @@
 .PHONY: help build up down clean analyze test integration all logs
 
+DOCKER_COMPOSE := docker compose -f docker/docker-compose.yml -p simplenotes
+
 help: ## Показать это сообщение помощи
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-20s\033[0m %s\n", $$1, $$2}'
 
 build: ## Собрать все Docker образы
-	cd docker && docker-compose build
+	$(DOCKER_COMPOSE) build
 
 up: ## Запустить все контейнеры
-	cd docker && docker-compose up
+	$(DOCKER_COMPOSE) up
 
 down: ## Остановить все контейнеры
-	cd docker && docker-compose down
+	$(DOCKER_COMPOSE) down
 
 clean: ## Очистить все контейнеры и volumes
-	cd docker && docker-compose down -v
+	$(DOCKER_COMPOSE) down -v
 	docker system prune -f
 
 analyze: ## Запустить только анализатор кода
-	cd docker && docker-compose run --rm analyzer
+	$(DOCKER_COMPOSE) run --rm analyzer
 
 test: ## Запустить только unit-тесты
-	cd docker && docker-compose run --rm test
+	$(DOCKER_COMPOSE) run --rm test
 
 builder: ## Запустить только сборку APK
-	cd docker && docker-compose run --rm builder
+	$(DOCKER_COMPOSE) run --rm builder
 
 integration: ## Запустить только integration-тесты
-	cd docker && docker-compose run --rm integration
+	$(DOCKER_COMPOSE) run --rm integration
 
 all: ## Запустить весь CI/CD пайплайн последовательно
 	@make analyze
@@ -35,10 +37,10 @@ all: ## Запустить весь CI/CD пайплайн последоват�
 	@make integration
 
 logs: ## Показать логи контейнеров
-	cd docker && docker-compose logs -f
+	$(DOCKER_COMPOSE) logs -f
 
 parallel: ## Запустить analyzer и test параллельно
-	cd docker && docker-compose up analyzer test
+	$(DOCKER_COMPOSE) up analyzer test
 
 extract-apk: ## Скопировать собранный APK из volume
 	@docker run --rm -v flutter-build-output:/build alpine cat /build/app/outputs/flutter-apk/app-prod-release.apk > app-release.apk

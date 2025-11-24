@@ -45,6 +45,7 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile.integration
+    platform: linux/amd64
     container_name: flutter-integration
     networks:
       - flutter-network
@@ -57,11 +58,13 @@ services:
 volumes:
   build-output:
     name: flutter-build-output
+    external: true
   test-coverage:
     name: flutter-test-coverage
+    external: true
 
 # Сеть для взаимодействия контейнеров
 networks:
   flutter-network:
-    name: flutter-ci-network
+    name: simplenotes-network
     driver: bridge
