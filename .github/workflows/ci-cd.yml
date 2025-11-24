@@ -61,6 +61,10 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-buildx-test-
     
+    - name: Create Docker volumes
+      run: |
+        docker volume create flutter-test-coverage || true
+    
     - name: Build test image
       run: |
         cd docker
@@ -102,6 +106,10 @@ jobs:
         key: ${{ runner.os }}-buildx-builder-${{ hashFiles('docker/Dockerfile.builder', 'pubspec.lock') }}
         restore-keys: |
           ${{ runner.os }}-buildx-builder-
+    
+    - name: Create Docker volumes
+      run: |
+        docker volume create flutter-build-output || true
     
     - name: Build builder image
       run: |

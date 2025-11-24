@@ -17,6 +17,11 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
     
+    - name: Create Docker volumes
+      run: |
+        docker volume create flutter-build-output || true
+        docker volume create flutter-test-coverage || true
+    
     - name: Run full CI/CD pipeline
       run: |
         cd docker

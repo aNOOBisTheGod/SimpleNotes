@@ -58,10 +58,8 @@ services:
 volumes:
   build-output:
     name: flutter-build-output
-    external: true
   test-coverage:
     name: flutter-test-coverage
-    external: true
 
 # Сеть для взаимодействия контейнеров
 networks:
