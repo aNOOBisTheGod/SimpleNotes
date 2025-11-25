@@ -1,7 +1,27 @@
-![Android build](https://github.com/aNOOBisTheGod/SimpleNotes/actions/workflows/main.yml/badge.svg)
+![CI/CD Pipeline](https://github.com/aNOOBisTheGod/SimpleNotes/actions/workflows/ci-cd.yml/badge.svg)
 
 # Simple Notes
 Простой проект приложения заметок на Flutter.
+
+## CI/CD с Docker
+
+Проект использует Docker-контейнеры для автоматизации CI/CD процессов:
+- **Analyzer** - статический анализ кода
+- **Test** - unit-тесты с coverage
+- **Builder** - сборка production APK
+- **Integration** - интеграционные тесты
+
+### Локальные команды
+
+```bash
+make analyze      # Анализ кода
+make test         # Unit-тесты
+make builder      # Сборка APK
+make all          # Полный pipeline
+make parallel     # Analyzer + Test параллельно
+```
+
+Подробнее: [.github/README.md](.github/README.md)
 
 ## Фичи приложения
 <ul>

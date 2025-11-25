@@ -5,46 +5,37 @@ import 'package:logger/web.dart';
 class NoteEventLogger {
   final logger = Logger(printer: PrettyPrinter());
 
+  void _logToFirebase(String eventName, Map<String, Object?>? parameters) {
+    try {
+      FirebaseAnalytics.instance.logEvent(
+        name: eventName,
+        parameters: parameters,
+      );
+    } catch (e) {
+      // Firebase не доступен (например, в тестах или на Linux)
+    }
+  }
+
   void noteAdded(Note note) {
     logger.d('Добавлена заметка: ${note.toJson()}');
-    FirebaseAnalytics.instance.logEvent(
-      name: 'note_added',
-      parameters: {
-        'item_id': note.id,
-      },
-    );
+    _logToFirebase('note_added', {'item_id': note.id});
   }
 
   void noteEdited(Note noteBefore, Note noteAfter) {
     logger.d(
         'Заметка изменена: ${noteBefore.toJson()} =>  ${noteAfter.toJson()}');
-    FirebaseAnalytics.instance.logEvent(
-      name: 'note_updated',
-      parameters: {
-        'item_id': noteBefore.id,
-      },
-    );
+    _logToFirebase('note_updated', {'item_id': noteBefore.id});
   }
 
   void noteDeleted(Note deletedNote) {
     logger.d('Заметка удалена: ${deletedNote.toJson()}');
-    FirebaseAnalytics.instance.logEvent(
-      name: 'note_deleted',
-      parameters: {
-        'item_id': deletedNote.id,
-      },
-    );
+    _logToFirebase('note_deleted', {'item_id': deletedNote.id});
   }
 
   void noteDoneStatusChange(bool showDone) {
     logger.d(
         "Режим просмотра заметок изменен на ${showDone ? '"Показывать сделанные"' : '"Не показывать сделанные"'}");
-    FirebaseAnalytics.instance.logEvent(
-      name: 'note_status_edited',
-      parameters: {
-        'is_done': showDone,
-      },
-    );
+    _logToFirebase('note_status_edited', {'is_done': showDone});
   }
 
   void localRevisionUpdated(int currentRevision) {
@@ -78,8 +69,6 @@ class NoteEventLogger {
 
   void remoteNotesListPatched() {
     logger.d('Локальный и удаленный списки заметок синхронизированы');
-    FirebaseAnalytics.instance.logEvent(
-      name: 'список заметок обновлен',
-    );
+    _logToFirebase('список заметок обновлен', null);
   }
 }

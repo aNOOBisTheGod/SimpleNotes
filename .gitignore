@@ -42,5 +42,8 @@ app.*.map.json
 /android/app/profile
 /android/app/release
 
+# CI/CD artifacts
+app-release.apk
+coverage/
+
 /vscode
-/lib/core/secrets

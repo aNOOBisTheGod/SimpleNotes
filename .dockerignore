@@ -1,0 +1,46 @@
+# Flutter/Dart
+.dart_tool/
+.packages
+build/
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# IDE
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+
+# Git
+.git/
+.gitignore
+
+# macOS
+.DS_Store
+
+# Testing
+coverage/
+.test_coverage.dart
+
+# Temporary files
+*.log
+*.tmp
+*.swp
+
+# Android
+android/.gradle/
+android/app/build/
+android/local.properties
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.podspec
+
+# Build outputs (будем монтировать через volumes)
+build/
+
+# Node modules (если есть)
+node_modules/
